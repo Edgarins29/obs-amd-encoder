@@ -20,14 +20,26 @@
 #include "amf.hpp"
 #include <mutex>
 #include <vector>
+#include <string>
+#include <errno.h>
 
+#if defined(_WIN32) || defined(_WIN64)
 #include <components\Component.h>
 #include <components\ComponentCaps.h>
 #include <components\VideoEncoderVCE.h>
+#else
+#include <components/Component.h>
+#include <components/ComponentCaps.h>
+#include <components/VideoEncoderVCE.h>
+#endif
 
 #if defined(_WIN32) || defined(_WIN64)
 extern "C" {
 #include <windows.h>
+}
+#else
+extern "C" {
+#include <dlfcn.h>
 }
 #endif
 
@@ -35,7 +47,11 @@ using namespace Plugin::AMD;
 
 class CustomWriter : public amf::AMFTraceWriter {
 	public:
+	#if defined(_WIN32) || defined(_WIN64)
 	virtual void __cdecl Write(const wchar_t* scope, const wchar_t* message) override
+#else
+	virtual void Write(const wchar_t* scope, const wchar_t* message) override
+#endif
 	{
 #ifndef LITE_OBS
 		const wchar_t* realmsg = &(message[(33 + wcslen(scope) + 2)]); // Skip Time & Scope
@@ -47,11 +63,16 @@ class CustomWriter : public amf::AMFTraceWriter {
 		message;
 #endif
 	}
-
+#if defined(_WIN32) || defined(_WIN64)
 	virtual void __cdecl Flush() override {}
+#else
+	virtual void Flush() override {}
+#endif
 };
 
+#if defined(WIN32) || defined(WIN64)
 #pragma region    Singleton
+#endif
 static AMF*       __instance;
 static std::mutex __instance_mutex;
 void              Plugin::AMD::AMF::Initialize()
@@ -74,19 +95,22 @@ void Plugin::AMD::AMF::Finalize()
 		delete __instance;
 	__instance = nullptr;
 }
+#if defined(WIN32) || defined(WIN64)
 #pragma endregion Singleton
+#endif
 
 const wchar_t* loggername = L"OBSWriter";
 
 Plugin::AMD::AMF::AMF()
 {
 	AMF_RESULT res = AMF_OK;
-
+#if defined(WIN32) || defined(WIN64)
 #pragma region Null Class Members
+#endif
 	m_TimerPeriod        = 0;
 	m_AMFVersion_Plugin  = AMF_FULL_VERSION;
 	m_AMFVersion_Runtime = 0;
-	m_AMFModule          = 0;
+	m_AMFModule          = nullptr;
 
 	m_AMFFactory    = nullptr;
 	m_AMFTrace      = nullptr;
@@ -95,24 +119,48 @@ Plugin::AMD::AMF::AMF()
 	AMFInit         = nullptr;
 	m_TraceWriter   = nullptr;
 	m_TimerPeriod   = 0;
+#if defined(WIN32) || defined(WIN64)
 #pragma endregion Null Class Members
+#endif
 
 #ifdef _WIN32
 	std::vector<char> verbuf;
 	void*             pProductVersion     = nullptr;
 	uint32_t          lProductVersionSize = 0;
+#else
+	// Need to rework this for Linux.
+	// STUB
+	std::vector<char> verbuf;
+	void* pProductVersion = nullptr;
+	uint32_t lProductVersionSize = 0;
 #endif
 
 	// Initialize AMF Library
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Initializing...");
+	PLOG_DEBUG("< AMF() > Initializing...");
 
 	// Load AMF Runtime Library
+#if defined(WIN32) || defined(WIN64)
 	m_AMFModule = LoadLibraryW(AMF_DLL_NAME);
+#else
+	#if defined(__x86_64__)
+		m_AMFModule = dlopen("libamfrt64.so.1", RTLD_NOW | RTLD_GLOBAL);
+	#else
+		m_AMFModule = dlopen("libamfrt32.so.1", RTLD_NOW | RTLD_GLOBAL);
+	#endif
+#endif
 	if (!m_AMFModule) {
+#if defined(WIN32) || defined(WIN64)
 		QUICK_FORMAT_MESSAGE(msg, "Unable to load '%ls', error code %ld.", AMF_DLL_NAME, GetLastError());
+#else
+		QUICK_FORMAT_MESSAGE(msg, "Unable to load '%ls', error code %ld.", AMF_DLL_NAME, strerror(errno));
+#endif
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(msg.data());
+#else
+		throw std::runtime_error(msg.data());
+#endif
 	} else {
-		PLOG_DEBUG("<" __FUNCTION_NAME__ "> Loaded '%ls'.", AMF_DLL_NAME);
+		PLOG_DEBUG("< AMF() > Loaded '%ls'.", AMF_DLL_NAME);
 	}
 
 // Windows: Get Product Version for Driver Matching
@@ -139,19 +187,38 @@ Plugin::AMD::AMF::AMF()
 		// Retrieve file description for language and code page "i".
 		VerQueryValueA(pBlock, buf.data(), &pProductVersion, &lProductVersionSize);
 	}
-#endif _WIN32
+#endif
 
 	// Query Runtime Version
+#if defined(WIN32) || defined(WIN64)
 	AMFQueryVersion = (AMFQueryVersion_Fn)GetProcAddress(m_AMFModule, AMF_QUERY_VERSION_FUNCTION_NAME);
+#else
+	AMFQueryVersion =  (AMFQueryVersion_Fn)dlsym(m_AMFModule, AMF_QUERY_VERSION_FUNCTION_NAME);
+#endif
+
 	if (!AMFQueryVersion) {
+#if defined(WIN32) || defined(WIN64)
 		QUICK_FORMAT_MESSAGE(msg, "Incompatible AMF Runtime (could not find '%s'), error code %ld.",
 							 AMF_QUERY_VERSION_FUNCTION_NAME, GetLastError());
+#else
+		QUICK_FORMAT_MESSAGE(msg, "Incompatible AMF Runtime (could not find '%s'), error code %ld.",
+							 AMF_QUERY_VERSION_FUNCTION_NAME, strerror(errno));
+#endif
+
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(msg.data());
+#else
+		throw std::runtime_error(msg.data());
+#endif
 	} else {
 		res = AMFQueryVersion(&m_AMFVersion_Runtime);
 		if (res != AMF_OK) {
 			QUICK_FORMAT_MESSAGE(msg, "Querying Version failed, error code %d.", res);
+#if defined(WIN32) || defined(WIN64)
 			throw std::exception(msg.data());
+#else
+			throw std::runtime_error(msg.data());
+#endif
 		}
 	}
 
@@ -161,32 +228,59 @@ Plugin::AMD::AMF::AMF()
 	}
 
 	/// Initialize AMF
+#if defined(WIN32) || defined(WIN64)
 	AMFInit = (AMFInit_Fn)GetProcAddress(m_AMFModule, AMF_INIT_FUNCTION_NAME);
+#else
+	AMFInit =  (AMFInit_Fn)dlsym(m_AMFModule, AMF_INIT_FUNCTION_NAME);
+#endif
 	if (!AMFInit) {
+
+#if defined(WIN32) || defined(WIN64)
 		QUICK_FORMAT_MESSAGE(msg, "Incompatible AMF Runtime (could not find '%s'), error code %ld.",
 							 AMF_QUERY_VERSION_FUNCTION_NAME, GetLastError());
+#else
+		QUICK_FORMAT_MESSAGE(msg, "Incompatible AMF Runtime (could not find '%s'), error code %ld.",
+							 AMF_QUERY_VERSION_FUNCTION_NAME, strerror(errno));
+#endif
+
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(msg.data());
+#else
+		throw std::runtime_error(msg.data());
+#endif
 	} else {
 		res = AMFInit(m_AMFVersion_Runtime, &m_AMFFactory);
 		if (res != AMF_OK) {
 			QUICK_FORMAT_MESSAGE(msg, "Initializing AMF Library failed, error code %d.", res);
+#if defined(WIN32) || defined(WIN64)
 			throw std::exception(msg.data());
+#else
+			throw std::runtime_error(msg.data());
+#endif
 		}
 	}
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> AMF Library initialized.");
+	PLOG_DEBUG("< AMF() > AMF Library initialized.");
 
 	/// Retrieve Trace Object.
 	res = m_AMFFactory->GetTrace(&m_AMFTrace);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(msg, "Retrieving AMF Trace class failed, error code %d.", res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(msg.data());
+#else
+		throw std::runtime_error(msg.data());
+#endif
 	}
 
 	/// Retrieve Debug Object.
 	res = m_AMFFactory->GetDebug(&m_AMFDebug);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(msg, "Retrieving AMF Debug class failed, error code %d.", res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(msg.data());
+#else
+		throw std::runtime_error(msg.data());
+#endif
 	}
 
 /// Register Trace Writer and disable Debug Tracing.
@@ -210,12 +304,12 @@ Plugin::AMD::AMF::AMF()
 		(uint16_t)((m_AMFVersion_Runtime >> 32ull) & 0xFFFF), (uint16_t)((m_AMFVersion_Runtime >> 16ull) & 0xFFFF),
 		(uint16_t)((m_AMFVersion_Runtime & 0xFFFF)), lProductVersionSize, pProductVersion);
 
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Initialized.");
+	PLOG_DEBUG("< AMF() > Initialized.");
 }
 
 Plugin::AMD::AMF::~AMF()
 {
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Finalizing.");
+	PLOG_DEBUG("< ~AMF() > Finalizing.");
 	if (m_AMFModule) {
 		if (m_TraceWriter) {
 			if (m_AMFTrace)
@@ -223,12 +317,17 @@ Plugin::AMD::AMF::~AMF()
 			delete m_TraceWriter;
 			m_TraceWriter = nullptr;
 		}
-
+#if defined(WIN32) || defined(WIN64)
 		FreeLibrary(m_AMFModule);
+#else
+		dlclose(m_AMFModule);
+#endif
 	}
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Finalized.");
+	PLOG_DEBUG("< ~AMF() > Finalized.");
 
+#if defined(WIN32) || defined(WIN64)
 #pragma region Null Class Members
+#endif
 	m_TimerPeriod        = 0;
 	m_AMFVersion_Plugin  = 0;
 	m_AMFVersion_Runtime = 0;
@@ -239,7 +338,9 @@ Plugin::AMD::AMF::~AMF()
 	m_AMFDebug      = nullptr;
 	AMFQueryVersion = nullptr;
 	AMFInit         = nullptr;
+#if defined(WIN32) || defined(WIN64)
 #pragma endregion Null Class Members
+#endif
 }
 
 amf::AMFFactory* Plugin::AMD::AMF::GetFactory()
@@ -260,9 +361,18 @@ amf::AMFDebug* Plugin::AMD::AMF::GetDebug()
 void Plugin::AMD::AMF::EnableDebugTrace(bool enable)
 {
 	if (!m_AMFTrace)
+		#if defined(WIN32) || defined(WIN64)
 		throw std::exception("<" __FUNCTION_NAME__ "> called without a AMFTrace object!");
+#else
+		throw std::runtime_error("< EnableDebugTrace() > called without a AMFTrace object!");
+#endif
+
 	if (!m_AMFDebug)
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception("<" __FUNCTION_NAME__ "> called without a AMFDebug object!");
+#else
+		throw std::runtime_error("< EnableDebugTrace() > called without a AMFTrace object!");
+#endif
 
 #ifndef _WIN64
 	// Older drivers crash due to using the wrong calling standard.

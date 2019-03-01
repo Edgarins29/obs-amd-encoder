@@ -20,17 +20,24 @@
 #pragma once
 #include <inttypes.h>
 #include "version.hpp"
+#include <string>
+
 
 #ifndef LITE_OBS
+#if defined(_WIN32) || defined(_WIN64)
 #pragma warning(push)
 #pragma warning(disable : 4201)
+#endif
 extern "C" {
 #include <obs-module.h>
 #include <util/base.h>
 #include <util/platform.h>
 }
+#if defined(_WIN32) || defined(_WIN64)
 #pragma warning(pop)
 #endif
+#endif
+
 
 // Plugin
 #define PLUGIN_NAME "AMD Advanced Media Framework"
@@ -50,6 +57,7 @@ extern "C" {
 #define dstr(s) #s
 
 #define clamp(val, low, high) (val > high ? high : (val < low ? low : val))
+#if defined(_WIN32) || defined(_WIN64)
 #ifdef max
 #undef max
 #endif
@@ -58,6 +66,7 @@ extern "C" {
 #undef min
 #endif
 #define min(val, low) (val < low ? val : low)
+#endif
 
 #ifdef IN
 #undef IN
@@ -68,7 +77,7 @@ extern "C" {
 #endif
 #define OUT
 
-#ifdef _WIN64
+#if defined(_WIN64) || defined(_LIN64)
 #define BIT_STR "64"
 #else
 #define BIT_STR "32"
@@ -82,11 +91,11 @@ extern "C" {
 		var = std::string(QUICK_FORMAT_MESSAGE_buf.data());                                      \
 	}
 
-#ifndef __FUNCTION_NAME__
+#ifndef __FUNCTION_NAME
 #if defined(_WIN32) || defined(_WIN64) //WINDOWS
 #define __FUNCTION_NAME__ __FUNCTION__
 #else //*NIX
-#define __FUNCTION_NAME__ __func__
+//#define __FUNCTION_NAME __PRETTY_FUNCTION__
 #endif
 #endif
 

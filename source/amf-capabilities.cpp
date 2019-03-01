@@ -19,6 +19,7 @@
 
 #include "amf-capabilities.hpp"
 #include "utility.hpp"
+#include <memory>
 
 using namespace Plugin;
 using namespace Plugin::AMD;

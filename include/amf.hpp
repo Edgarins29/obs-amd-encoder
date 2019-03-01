@@ -21,10 +21,17 @@
 #include <memory>
 #include "plugin.hpp"
 
+#if defined(WIN32) || defined(WIN64)
 #include <components\Component.h>
 #include <components\ComponentCaps.h>
 #include <components\VideoEncoderVCE.h>
 #include <core\Factory.h>
+#else
+#include <components/Component.h>
+#include <components/ComponentCaps.h>
+#include <components/VideoEncoderVCE.h>
+#include <core/Factory.h>
+#endif
 
 extern "C" {
 #if defined(WIN32) || defined(WIN64)
@@ -64,7 +71,11 @@ namespace Plugin {
 			uint32_t m_TimerPeriod; /// High-Precision Timer Accuracy (nanoseconds)
 
 			/// AMF Values
+			#if defined(WIN32) || defined(WIN64)
 			HMODULE  m_AMFModule;
+			#else
+			void*  m_AMFModule;
+			#endif
 			uint64_t m_AMFVersion_Plugin;
 			uint64_t m_AMFVersion_Runtime;
 

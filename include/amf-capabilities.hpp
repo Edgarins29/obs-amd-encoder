@@ -23,6 +23,7 @@
 #include <map>
 #include <tuple>
 #include <vector>
+#include <memory>
 #include "amf-encoder-h264.hpp"
 #include "amf-encoder-h265.hpp"
 #include "amf-encoder.hpp"
@@ -30,8 +31,11 @@
 #include "api-base.hpp"
 #include "plugin.hpp"
 
+#if defined(WIN32) || defined(WIN64)
 #include <components\ComponentCaps.h>
-
+#else
+#include <components/ComponentCaps.h>
+#endif
 namespace Plugin {
 	namespace AMD {
 		class CapabilityManager {
