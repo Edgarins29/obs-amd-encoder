@@ -58,9 +58,13 @@ std::vector<Usage> Plugin::AMD::EncoderH265::CapsUsage()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_USAGE, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsUsage() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	std::vector<Usage> ret;
@@ -76,9 +80,13 @@ void Plugin::AMD::EncoderH265::SetUsage(Usage v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_USAGE, Utility::UsageToAMFH265(v));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetUsage() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, Utility::UsageToString(v), m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -90,9 +98,13 @@ Plugin::AMD::Usage Plugin::AMD::EncoderH265::GetUsage()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_USAGE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetUsage() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return Utility::UsageFromAMFH265((AMF_VIDEO_ENCODER_HEVC_USAGE_ENUM)e);
 }
@@ -106,9 +118,13 @@ std::vector<QualityPreset> Plugin::AMD::EncoderH265::CapsQualityPreset()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_QUALITY_PRESET, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsQualityPreset() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	std::vector<QualityPreset> ret;
@@ -125,9 +141,13 @@ void Plugin::AMD::EncoderH265::SetQualityPreset(QualityPreset v)
 	AMF_RESULT res =
 		m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_QUALITY_PRESET, Utility::QualityPresetToAMFH265(v));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetQualityPreset() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, Utility::QualityPresetToString(v), m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -139,9 +159,13 @@ Plugin::AMD::QualityPreset Plugin::AMD::EncoderH265::GetQualityPreset()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_QUALITY_PRESET, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetQualityPreset() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return Utility::QualityPresetFromAMFH265((AMF_VIDEO_ENCODER_HEVC_QUALITY_PRESET_ENUM)e);
 }
@@ -155,9 +179,13 @@ std::pair<std::pair<uint32_t, uint32_t>, std::pair<uint32_t, uint32_t>> Plugin::
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_FRAMESIZE, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsResolution() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair(std::make_pair(var->minValue.sizeValue.width, var->maxValue.sizeValue.width),
@@ -170,9 +198,13 @@ void Plugin::AMD::EncoderH265::SetResolution(std::pair<uint32_t, uint32_t> v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_FRAMESIZE, ::AMFConstructSize(v.first, v.second));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ldx%ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetResolution() > Failed to set to %ldx%ld, error %ls (code %d)",
 							 m_UniqueId, v.first, v.second, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	m_Resolution.first  = v.first;
 	m_Resolution.second = v.second;
@@ -186,9 +218,13 @@ std::pair<uint32_t, uint32_t> Plugin::AMD::EncoderH265::GetResolution()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_FRAMESIZE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetResolution() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	m_Resolution.first  = e.width;
 	m_Resolution.second = e.height;
@@ -202,9 +238,13 @@ void Plugin::AMD::EncoderH265::SetAspectRatio(std::pair<uint32_t, uint32_t> v)
 	AMF_RESULT res =
 		m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_ASPECT_RATIO, ::AMFConstructRatio(v.first, v.second));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld:%ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetAspectRatio() > Failed to set to %ld:%ld, error %ls (code %d)",
 							 m_UniqueId, v.first, v.second, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -216,9 +256,13 @@ std::pair<uint32_t, uint32_t> Plugin::AMD::EncoderH265::GetAspectRatio()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_ASPECT_RATIO, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetAspectRatio() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return std::make_pair(e.num, e.den);
 }
@@ -229,9 +273,13 @@ void Plugin::AMD::EncoderH265::SetFrameRate(std::pair<uint32_t, uint32_t> v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_FRAMERATE, ::AMFConstructRate(v.first, v.second));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld/%ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetFrameRate() > Failed to set to %ld/%ld, error %ls (code %d)",
 							 m_UniqueId, v.first, v.second, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	m_FrameRate = std::make_pair(v.first, v.second);
 	UpdateFrameRateValues();
@@ -247,7 +295,11 @@ std::pair<uint32_t, uint32_t> Plugin::AMD::EncoderH265::GetFrameRate()
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> Unable to retrieve value, error %ls (code %d)", m_UniqueId,
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	m_FrameRate = std::make_pair(e.num, e.den);
 	UpdateFrameRateValues();
@@ -262,9 +314,13 @@ std::vector<Profile> Plugin::AMD::EncoderH265::CapsProfile()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_PROFILE, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsProfile() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	std::vector<Profile> ret;
@@ -280,9 +336,13 @@ void Plugin::AMD::EncoderH265::SetProfile(Profile v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_PROFILE, Utility::ProfileToAMFH265(v));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetProfile() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, Utility::ProfileToString(v), m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -294,9 +354,13 @@ Plugin::AMD::Profile Plugin::AMD::EncoderH265::GetProfile()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_PROFILE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetProfile() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return Utility::ProfileFromAMFH265((AMF_VIDEO_ENCODER_HEVC_PROFILE_ENUM)e);
 }
@@ -309,9 +373,13 @@ std::vector<ProfileLevel> Plugin::AMD::EncoderH265::CapsProfileLevel()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_PROFILE_LEVEL, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsProfileLevel() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	std::vector<ProfileLevel> ret;
@@ -350,9 +418,13 @@ void Plugin::AMD::EncoderH265::SetProfileLevel(ProfileLevel v, std::pair<uint32_
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_PROFILE_LEVEL, ((int64_t)v) * 3);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %lld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetProfileLevel() > Failed to set to %lld, error %ls (code %d)",
 							 m_UniqueId, (int64_t)v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -364,9 +436,13 @@ Plugin::AMD::ProfileLevel Plugin::AMD::EncoderH265::GetProfileLevel()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_PROFILE_LEVEL, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetProfileLevel() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (ProfileLevel)(e / 3);
 }
@@ -379,9 +455,13 @@ std::vector<H265::Tier> Plugin::AMD::EncoderH265::CapsTier()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_TIER, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsTier() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	std::vector<H265::Tier> ret;
@@ -397,9 +477,13 @@ void Plugin::AMD::EncoderH265::SetTier(H265::Tier v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_TIER, Utility::TierToAMFH265(v));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetTier() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, Utility::TierToString(v), m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -411,9 +495,13 @@ Plugin::AMD::H265::Tier Plugin::AMD::EncoderH265::GetTier()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_TIER, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetTier() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (H265::Tier)e;
 }
@@ -426,9 +514,13 @@ std::pair<uint64_t, uint64_t> Plugin::AMD::EncoderH265::CapsMaximumReferenceFram
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_MAX_NUM_REFRAMES, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsMaximumReferenceFrames() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair(var->minValue.int64Value, var->maxValue.int64Value);
@@ -440,9 +532,13 @@ void Plugin::AMD::EncoderH265::SetMaximumReferenceFrames(uint64_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_NUM_REFRAMES, v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %lld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetMaximumReferenceFrames() > Failed to set to %lld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -455,10 +551,14 @@ uint64_t Plugin::AMD::EncoderH265::GetMaximumReferenceFrames()
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_NUM_REFRAMES, &e);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 __FUNCTION_NAME__ "<Id: %lld> <" __FUNCTION_NAME__
-											   "> Failed to retrieve value, error %ls (code %d)",
+							 __FUNCTION_NAME__ "<Id: %lld> < GetMaximumReferenceFrames()
+											   > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -471,9 +571,13 @@ std::vector<CodingType> Plugin::AMD::EncoderH265::CapsCodingType()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_CABAC_ENABLE, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsCodingType() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	std::vector<CodingType> ret;
@@ -489,9 +593,13 @@ void Plugin::AMD::EncoderH265::SetCodingType(CodingType v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_CABAC_ENABLE, Utility::CodingTypeToAMFH265(v));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetCodingType() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, Utility::CodingTypeToString(v), m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -505,7 +613,11 @@ Plugin::AMD::CodingType Plugin::AMD::EncoderH265::GetCodingType()
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> Unable to retrieve value, error %ls (code %d)", m_UniqueId,
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return Utility::CodingTypeFromAMFH265((AMF_VIDEO_ENCODER_CODING_ENUM)e);
 }
@@ -518,9 +630,13 @@ std::pair<uint32_t, uint32_t> Plugin::AMD::EncoderH265::CapsMaximumLongTermRefer
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_MAX_LTR_FRAMES, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsMaximumLongTermReferenceFrames() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair((uint32_t)var->minValue.int64Value, (uint32_t)var->maxValue.int64Value);
@@ -532,9 +648,13 @@ void Plugin::AMD::EncoderH265::SetMaximumLongTermReferenceFrames(uint32_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_LTR_FRAMES, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetMaximumLongTermReferenceFrames() > Failed to set to %ld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -545,9 +665,13 @@ uint32_t Plugin::AMD::EncoderH265::GetMaximumLongTermReferenceFrames()
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_LTR_FRAMES, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetMaximumLongTermReferenceFrames() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint32_t)e;
 }
@@ -561,9 +685,13 @@ std::vector<RateControlMethod> Plugin::AMD::EncoderH265::CapsRateControlMethod()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_RATE_CONTROL_METHOD, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsRateControlMethod() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	std::vector<RateControlMethod> ret;
@@ -581,10 +709,14 @@ void Plugin::AMD::EncoderH265::SetRateControlMethod(RateControlMethod v)
 	AMF_RESULT res =
 		m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_RATE_CONTROL_METHOD, Utility::RateControlMethodToAMFH265(v));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetRateControlMethod() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, Utility::RateControlMethodToString(v), m_AMF->GetTrace()->GetResultText(res),
 							 res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -596,9 +728,13 @@ Plugin::AMD::RateControlMethod Plugin::AMD::EncoderH265::GetRateControlMethod()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_RATE_CONTROL_METHOD, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetRateControlMethod() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return Utility::RateControlMethodFromAMFH265((AMF_VIDEO_ENCODER_HEVC_RATE_CONTROL_METHOD_ENUM)e);
 }
@@ -611,9 +747,13 @@ std::vector<PrePassMode> Plugin::AMD::EncoderH265::CapsPrePassMode()
 	AMF_RESULT res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_RATE_CONTROL_PREANALYSIS_ENABLE, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsPrePassMode() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	if (var->type == amf::AMF_VARIANT_BOOL) {
 		return std::vector<PrePassMode>({PrePassMode::Disabled, PrePassMode::Enabled});
@@ -634,10 +774,14 @@ void Plugin::AMD::EncoderH265::SetPrePassMode(PrePassMode v)
 	AMF_RESULT res =
 		m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_RATE_CONTROL_PREANALYSIS_ENABLE, v != PrePassMode::Disabled);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetPrePassMode() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, (v != PrePassMode::Disabled) ? "Enabled" : "Disabled",
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -651,7 +795,11 @@ Plugin::AMD::PrePassMode Plugin::AMD::EncoderH265::GetPrePassMode()
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> Unable to retrieve value, error %ls (code %d)", m_UniqueId,
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	if (e) {
 		return PrePassMode::Enabled;
@@ -666,9 +814,13 @@ void Plugin::AMD::EncoderH265::SetVarianceBasedAdaptiveQuantizationEnabled(bool 
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_ENABLE_VBAQ, v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetVarianceBasedAdaptiveQuantizationEnabled() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, v ? "Enabled" : "Disabled", m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -680,9 +832,13 @@ bool Plugin::AMD::EncoderH265::IsVarianceBasedAdaptiveQuantizationEnabled()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_ENABLE_VBAQ, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < IsVarianceBasedAdaptiveQuantizationEnabled() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -696,9 +852,13 @@ std::pair<uint64_t, uint64_t> Plugin::AMD::EncoderH265::CapsVBVBufferSize()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_VBV_BUFFER_SIZE, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsVBVBufferSize() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair(var->minValue.int64Value, var->maxValue.int64Value);
@@ -710,9 +870,13 @@ void Plugin::AMD::EncoderH265::SetVBVBufferSize(uint64_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_VBV_BUFFER_SIZE, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %lld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetVBVBufferSize() > Failed to set to %lld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -724,9 +888,13 @@ uint64_t Plugin::AMD::EncoderH265::GetVBVBufferSize()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_VBV_BUFFER_SIZE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetVBVBufferSize() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -738,9 +906,13 @@ void Plugin::AMD::EncoderH265::SetVBVBufferInitialFullness(double v)
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_INITIAL_VBV_BUFFER_FULLNESS, (int64_t)(v * 64));
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %lf (%d), error %ls (code %d)",
+							 "<Id: %lld> < SetVBVBufferInitialFullness() > Failed to set to %lf (%d), error %ls (code %d)",
 							 m_UniqueId, v, (uint8_t)(v * 64), m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -752,9 +924,13 @@ float Plugin::AMD::EncoderH265::GetInitialVBVBufferFullness()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_INITIAL_VBV_BUFFER_FULLNESS, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetInitialVBVBufferFullness() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (e / 64.0f);
 }
@@ -768,9 +944,13 @@ std::vector<H265::GOPType> Plugin::AMD::EncoderH265::CapsGOPType()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(L"GOPType", &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsGOPType() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	std::vector<H265::GOPType> ret;
@@ -786,9 +966,13 @@ void Plugin::AMD::EncoderH265::SetGOPType(H265::GOPType v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(L"GOPType", Utility::GOPTypeToAMFH265(v));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set mode to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetGOPType() > Failed to set mode to %s, error %ls (code %d)",
 							 m_UniqueId, Utility::GOPTypeToString(v), m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -799,9 +983,13 @@ Plugin::AMD::H265::GOPType Plugin::AMD::EncoderH265::GetGOPType()
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(L"GOPType", &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetGOPType() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return Utility::GOPTypeFromAMFH265(e);
 }
@@ -812,9 +1000,13 @@ void Plugin::AMD::EncoderH265::SetGOPSize(uint32_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_GOP_SIZE, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetGOPSize() > Failed to set to %ld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -825,9 +1017,13 @@ uint32_t Plugin::AMD::EncoderH265::GetGOPSize()
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_GOP_SIZE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetGOPSize() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint32_t)e;
 }
@@ -838,9 +1034,13 @@ void Plugin::AMD::EncoderH265::SetGOPSizeMin(uint32_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(L"GOPSizeMin", (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetGOPSizeMin() > Failed to set to %ld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -851,9 +1051,13 @@ uint32_t Plugin::AMD::EncoderH265::GetGOPSizeMin()
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(L"GOPSizeMin", &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetGOPSizeMin() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint32_t)e;
 }
@@ -864,9 +1068,13 @@ void Plugin::AMD::EncoderH265::SetGOPSizeMax(uint32_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(L"GOPSizeMax", (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetGOPSizeMax() > Failed to set to %ld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -877,9 +1085,13 @@ uint32_t Plugin::AMD::EncoderH265::GetGOPSizeMax()
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(L"GOPSizeMax", &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetGOPSizeMax() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint32_t)e;
 }
@@ -890,9 +1102,13 @@ void Plugin::AMD::EncoderH265::SetGOPAlignmentEnabled(bool v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(L"EnableGOPAlignment", v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetGOPAlignmentEnabled() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, v ? "Enabled" : "Disabled", m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -903,9 +1119,13 @@ bool Plugin::AMD::EncoderH265::IsGOPAlignmentEnabled()
 	bool       e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(L"EnableGOPAlignment", &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < IsGOPAlignmentEnabled() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -916,9 +1136,13 @@ void Plugin::AMD::EncoderH265::SetIDRPeriod(uint32_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_NUM_GOPS_PER_IDR, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetIDRPeriod() > Failed to set to %ld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	m_PeriodIDR = v;
 }
@@ -930,9 +1154,13 @@ uint32_t Plugin::AMD::EncoderH265::GetIDRPeriod()
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_NUM_GOPS_PER_IDR, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetIDRPeriod() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	m_PeriodIDR = (uint32_t)e;
 	return (uint32_t)e;
@@ -945,9 +1173,13 @@ void Plugin::AMD::EncoderH265::SetHeaderInsertionMode(H265::HeaderInsertionMode 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_HEADER_INSERTION_MODE,
 											   static_cast<AMF_VIDEO_ENCODER_HEVC_HEADER_INSERTION_MODE_ENUM>(v));
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetHeaderInsertionMode() > Failed to set to %ld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -958,9 +1190,13 @@ Plugin::AMD::H265::HeaderInsertionMode Plugin::AMD::EncoderH265::GetHeaderInsert
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_HEADER_INSERTION_MODE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetHeaderInsertionMode() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return static_cast<H265::HeaderInsertionMode>(e);
 }
@@ -971,9 +1207,13 @@ void Plugin::AMD::EncoderH265::SetDeblockingFilterEnabled(bool v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_DE_BLOCKING_FILTER_DISABLE, !v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetDeblockingFilterEnabled() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, v ? "Enabled" : "Disabled", m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -985,9 +1225,13 @@ bool Plugin::AMD::EncoderH265::IsDeblockingFilterEnabled()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(L"HevcDeBlockingFilter", &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < IsDeblockingFilterEnabled() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -999,9 +1243,13 @@ void Plugin::AMD::EncoderH265::SetMotionEstimationQuarterPixelEnabled(bool v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MOTION_QUARTERPIXEL, v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set mode to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetMotionEstimationQuarterPixelEnabled() > Failed to set mode to %s, error %ls (code %d)",
 							 m_UniqueId, v ? "Enabled" : "Disabled", m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1013,9 +1261,13 @@ bool Plugin::AMD::EncoderH265::IsMotionEstimationQuarterPixelEnabled()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MOTION_QUARTERPIXEL, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < IsMotionEstimationQuarterPixelEnabled() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -1026,9 +1278,13 @@ void Plugin::AMD::EncoderH265::SetMotionEstimationHalfPixelEnabled(bool v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MOTION_HALF_PIXEL, v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set mode to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetMotionEstimationHalfPixelEnabled() > Failed to set mode to %s, error %ls (code %d)",
 							 m_UniqueId, v ? "Enabled" : "Disabled", m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1040,9 +1296,13 @@ bool Plugin::AMD::EncoderH265::IsMotionEstimationHalfPixelEnabled()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MOTION_HALF_PIXEL, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < IsMotionEstimationHalfPixelEnabled() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -1054,9 +1314,13 @@ void Plugin::AMD::EncoderH265::SetFrameSkippingEnabled(bool v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_RATE_CONTROL_SKIP_FRAME_ENABLE, v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetFrameSkippingEnabled() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, v ? "Enabled" : "Disabled", m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1068,9 +1332,13 @@ bool Plugin::AMD::EncoderH265::IsFrameSkippingEnabled()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_RATE_CONTROL_SKIP_FRAME_ENABLE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < IsFrameSkippingEnabled() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -1081,9 +1349,13 @@ void Plugin::AMD::EncoderH265::SetEnforceHRDEnabled(bool v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_ENFORCE_HRD, v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetEnforceHRDEnabled() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, v ? "Enabled" : "Disabled", m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1095,9 +1367,13 @@ bool Plugin::AMD::EncoderH265::IsEnforceHRDEnabled()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_ENFORCE_HRD, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < IsEnforceHRDEnabled() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -1108,9 +1384,13 @@ void Plugin::AMD::EncoderH265::SetFillerDataEnabled(bool v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_FILLER_DATA_ENABLE, v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %s, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetFillerDataEnabled() > Failed to set to %s, error %ls (code %d)",
 							 m_UniqueId, v ? "Enabled" : "Disabled", m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1122,9 +1402,13 @@ bool Plugin::AMD::EncoderH265::IsFillerDataEnabled()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_FILLER_DATA_ENABLE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < IsFillerDataEnabled() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -1137,9 +1421,13 @@ std::pair<uint8_t, uint8_t> Plugin::AMD::EncoderH265::CapsIFrameQPMinimum()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_MIN_QP_I, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsIFrameQPMinimum() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair((uint8_t)var->minValue.int64Value, (uint8_t)var->maxValue.int64Value);
@@ -1151,9 +1439,13 @@ void Plugin::AMD::EncoderH265::SetIFrameQPMinimum(uint8_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MIN_QP_I, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %d, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetIFrameQPMinimum() > Failed to set to %d, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1165,9 +1457,13 @@ uint8_t Plugin::AMD::EncoderH265::GetIFrameQPMinimum()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MIN_QP_I, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetIFrameQPMinimum() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint8_t)e;
 }
@@ -1180,9 +1476,13 @@ std::pair<uint8_t, uint8_t> Plugin::AMD::EncoderH265::CapsIFrameQPMaximum()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_MAX_QP_I, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsIFrameQPMaximum() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair((uint8_t)var->minValue.int64Value, (uint8_t)var->maxValue.int64Value);
@@ -1194,9 +1494,13 @@ void Plugin::AMD::EncoderH265::SetIFrameQPMaximum(uint8_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_QP_I, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %d, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetIFrameQPMaximum() > Failed to set to %d, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1208,9 +1512,13 @@ uint8_t Plugin::AMD::EncoderH265::GetIFrameQPMaximum()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_QP_I, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetIFrameQPMaximum() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint8_t)e;
 }
@@ -1223,9 +1531,13 @@ std::pair<uint8_t, uint8_t> Plugin::AMD::EncoderH265::CapsPFrameQPMinimum()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_MIN_QP_P, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsPFrameQPMinimum() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair((uint8_t)var->minValue.int64Value, (uint8_t)var->maxValue.int64Value);
@@ -1237,9 +1549,13 @@ void Plugin::AMD::EncoderH265::SetPFrameQPMinimum(uint8_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MIN_QP_P, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %d, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetPFrameQPMinimum() > Failed to set to %d, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1251,9 +1567,13 @@ uint8_t Plugin::AMD::EncoderH265::GetPFrameQPMinimum()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MIN_QP_P, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetPFrameQPMinimum() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint8_t)e;
 }
@@ -1266,9 +1586,13 @@ std::pair<uint8_t, uint8_t> Plugin::AMD::EncoderH265::CapsPFrameQPMaximum()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_MAX_QP_P, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsPFrameQPMaximum() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair((uint8_t)var->minValue.int64Value, (uint8_t)var->maxValue.int64Value);
@@ -1280,9 +1604,13 @@ void Plugin::AMD::EncoderH265::SetPFrameQPMaximum(uint8_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_QP_P, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %d, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetPFrameQPMaximum() > Failed to set to %d, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1294,9 +1622,13 @@ uint8_t Plugin::AMD::EncoderH265::GetPFrameQPMaximum()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_QP_P, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetPFrameQPMaximum() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint8_t)e;
 }
@@ -1309,9 +1641,13 @@ std::pair<uint64_t, uint64_t> Plugin::AMD::EncoderH265::CapsTargetBitrate()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_TARGET_BITRATE, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsTargetBitrate() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair(var->minValue.int64Value, var->maxValue.int64Value);
@@ -1323,9 +1659,13 @@ void Plugin::AMD::EncoderH265::SetTargetBitrate(uint64_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_TARGET_BITRATE, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %lld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetTargetBitrate() > Failed to set to %lld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1337,9 +1677,13 @@ uint64_t Plugin::AMD::EncoderH265::GetTargetBitrate()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_TARGET_BITRATE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetTargetBitrate() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -1352,9 +1696,13 @@ std::pair<uint64_t, uint64_t> Plugin::AMD::EncoderH265::CapsPeakBitrate()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_PEAK_BITRATE, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsPeakBitrate() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair(var->minValue.int64Value, var->maxValue.int64Value);
@@ -1366,9 +1714,13 @@ void Plugin::AMD::EncoderH265::SetPeakBitrate(uint64_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_PEAK_BITRATE, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %lld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetPeakBitrate() > Failed to set to %lld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1380,9 +1732,13 @@ uint64_t Plugin::AMD::EncoderH265::GetPeakBitrate()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_PEAK_BITRATE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetPeakBitrate() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return e;
 }
@@ -1395,9 +1751,13 @@ std::pair<uint8_t, uint8_t> Plugin::AMD::EncoderH265::CapsIFrameQP()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_QP_I, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsIFrameQP() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair((uint8_t)var->minValue.int64Value, (uint8_t)var->maxValue.int64Value);
@@ -1409,9 +1769,13 @@ void Plugin::AMD::EncoderH265::SetIFrameQP(uint8_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_QP_I, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %d, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetIFrameQP() > Failed to set to %d, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1423,9 +1787,13 @@ uint8_t Plugin::AMD::EncoderH265::GetIFrameQP()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_QP_I, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetIFrameQP() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint8_t)e;
 }
@@ -1438,9 +1806,13 @@ std::pair<uint8_t, uint8_t> Plugin::AMD::EncoderH265::CapsPFrameQP()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(AMF_VIDEO_ENCODER_HEVC_QP_P, &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsPFrameQP() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair((uint8_t)var->minValue.int64Value, (uint8_t)var->maxValue.int64Value);
@@ -1452,9 +1824,13 @@ void Plugin::AMD::EncoderH265::SetPFrameQP(uint8_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_QP_P, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %d, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetPFrameQP() > Failed to set to %d, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1466,9 +1842,13 @@ uint8_t Plugin::AMD::EncoderH265::GetPFrameQP()
 
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_QP_P, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetPFrameQP() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint8_t)e;
 }
@@ -1479,9 +1859,13 @@ void Plugin::AMD::EncoderH265::SetMaximumAccessUnitSize(uint32_t v)
 
 	AMF_RESULT res = m_AMFEncoder->SetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_AU_SIZE, (int64_t)v);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set to %ld, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < SetMaximumAccessUnitSize() > Failed to set to %ld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1492,9 +1876,13 @@ uint32_t Plugin::AMD::EncoderH265::GetMaximumAccessUnitSize()
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_AU_SIZE, &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetMaximumAccessUnitSize() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint32_t)e;
 }
@@ -1507,9 +1895,13 @@ std::pair<uint32_t, uint32_t> Plugin::AMD::EncoderH265::CapsInputQueueSize()
 	AMF_RESULT                  res = m_AMFEncoder->GetPropertyInfo(L"HevcInputQueueSize", &var);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Querying capabilities failed, error %ls (code %d)",
+							 "<Id: %lld> < CapsInputQueueSize() > Querying capabilities failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	return std::make_pair((uint32_t)var->minValue.int64Value, (uint32_t)var->maxValue.int64Value);
@@ -1522,9 +1914,13 @@ void Plugin::AMD::EncoderH265::SetInputQueueSize(uint32_t v)
 	AMF_RESULT res = m_AMFEncoder->SetProperty(L"HevcInputQueueSize", v);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to set mode to %ld, error %ls (code %d)",
+							 "<Id: %lld> < SetInputQueueSize() > Failed to set mode to %ld, error %ls (code %d)",
 							 m_UniqueId, v, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -1535,9 +1931,13 @@ uint32_t Plugin::AMD::EncoderH265::GetInputQueueSize()
 	int64_t    e;
 	AMF_RESULT res = m_AMFEncoder->GetProperty(L"HevcInputQueueSize", &e);
 	if (res != AMF_OK) {
-		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> <" __FUNCTION_NAME__ "> Failed to retrieve value, error %ls (code %d)",
+		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %lld> < GetInputQueueSize() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	return (uint32_t)e;
 }
