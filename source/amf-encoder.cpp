@@ -114,7 +114,11 @@ Plugin::AMD::Encoder::Encoder(Codec codec, std::shared_ptr<API::IAPI> videoAPI, 
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Creating a AMF Context failed, error %ls (code %d).", m_UniqueId,
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	/// Initialize Context using selected API
 	switch (m_API->GetType()) {
@@ -148,7 +152,11 @@ Plugin::AMD::Encoder::Encoder(Codec codec, std::shared_ptr<API::IAPI> videoAPI, 
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Initializing %s API with Adapter '%s' failed, error %ls (code %d).",
 							 m_UniqueId, m_API->GetName().c_str(), m_APIAdapter.Name.c_str(),
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	// Initialize OpenCL (if possible)
@@ -182,26 +190,42 @@ Plugin::AMD::Encoder::Encoder(Codec codec, std::shared_ptr<API::IAPI> videoAPI, 
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Creating frame converter component failed, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	res = m_AMFConverter->SetProperty(AMF_VIDEO_CONVERTER_MEMORY_TYPE, amf::AMF_MEMORY_UNKNOWN);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Unable to set converter memory type, error %ls (code %d)", m_UniqueId,
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	res = m_AMFConverter->SetProperty(AMF_VIDEO_CONVERTER_OUTPUT_FORMAT, amf::AMF_SURFACE_NV12);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Unable to set converter output format, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 	res =
 		m_AMFConverter->SetProperty(AMF_VIDEO_CONVERTER_COLOR_PROFILE, Utility::ColorSpaceToAMFConverter(m_ColorSpace));
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Unable to set convertor color profile, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	// Create Encoder
@@ -209,7 +233,11 @@ Plugin::AMD::Encoder::Encoder(Codec codec, std::shared_ptr<API::IAPI> videoAPI, 
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Unable to create %s encoder, error %ls (code %d)", m_UniqueId,
 							 Utility::CodecToString(codec), m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	// Show complete initialization in log.
@@ -343,7 +371,7 @@ void Plugin::AMD::Encoder::SetVBVBufferStrictness(double_t v)
 			break;
 		case RateControlMethod::LatencyConstrainedVariableBitrate:
 		case RateControlMethod::PeakConstrainedVariableBitrate:
-			targetBitrate = max(this->GetTargetBitrate(), this->GetPeakBitrate());
+			targetBitrate = std::max(this->GetTargetBitrate(), this->GetPeakBitrate());
 			break;
 		case RateControlMethod::ConstantQP:
 			targetBitrate = bitrateCaps.second / 2;
@@ -427,14 +455,22 @@ void Plugin::AMD::Encoder::Start()
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Unable to initalize converter, error %ls (code %d)", m_UniqueId,
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	res = m_AMFEncoder->Init(amf::AMF_SURFACE_NV12, m_Resolution.first, m_Resolution.second);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Failed to initialize encoder, error %ls (code %d)", m_UniqueId,
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 
 	// Threading
@@ -462,7 +498,11 @@ void Plugin::AMD::Encoder::Restart()
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg, "<Id: %llu> Could not re-initialize encoder, error %ls (code %d)", m_UniqueId,
 							 m_AMF->GetTrace()->GetResultText(res), res);
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());
+#else
+		throw std::runtime_error(errMsg.c_str());
+#endif
 	}
 }
 
@@ -541,7 +581,11 @@ void Plugin::AMD::Encoder::GetVideoInfo(struct video_scale_info* info)
 	AMFTRACECALL;
 
 	if (!m_AMFContext || !m_AMFEncoder)
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception("<" __FUNCTION_NAME__ "> Called while not initialized.");
+#else
+		throw std::runtime_error("< GetVideoInfo() > Called while not initialized.");
+#endif
 
 	switch (m_ColorFormat) {
 	// 4:2:0 Formats
@@ -580,8 +624,11 @@ bool Plugin::AMD::Encoder::GetExtraData(uint8_t** extra_data, size_t* size)
 	AMFTRACECALL;
 
 	if (!m_AMFContext || !m_AMFEncoder)
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception("<" __FUNCTION_NAME__ "> Called while not initialized.");
-
+#else
+		throw std::runtime_error("< GetExtraData() > Called while not initialized.");
+#endif
 	amf::AMFVariant var;
 	AMF_RESULT      res = GetExtraDataInternal(&var);
 	if (res == AMF_OK && var.type == amf::AMF_VARIANT_INTERFACE) {
