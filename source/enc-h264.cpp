@@ -39,7 +39,12 @@ void Plugin::Interface::H264Interface::encoder_register()
 	}
 
 	// Create structure
+#if defined(WIN32) || defined(WIN64)
 	static std::unique_ptr<obs_encoder_info> encoder_info = std::make_unique<obs_encoder_info>();
+#else
+	// Current workaround for C++11, on GNU C++ compiler make_unique is C++14 feature.
+	static std::unique_ptr<obs_encoder_info> encoder_info = std::unique_ptr<obs_encoder_info>(new obs_encoder_info());
+#endif
 	std::memset(encoder_info.get(), 0, sizeof(obs_encoder_info));
 
 	// Initialize Structure
@@ -1307,10 +1312,19 @@ Plugin::Interface::H264Interface::H264Interface(obs_data_t* data, obs_encoder_t*
 	} adapterid  = {obs_data_get_int(data, P_VIDEO_ADAPTER)};
 	auto adapter = api->GetAdapterById(adapterid.id[0], adapterid.id[1]);
 
+#if defined(WIN32) || defined(WIN64)
 	m_VideoEncoder = std::make_unique<EncoderH264>(
 		api, adapter, !!obs_data_get_int(data, P_OPENCL_TRANSFER), !!obs_data_get_int(data, P_OPENCL_CONVERSION),
 		colorFormat, colorSpace, voi->range == VIDEO_RANGE_FULL, !!obs_data_get_int(data, P_MULTITHREADING),
 		(size_t)obs_data_get_int(data, P_QUEUESIZE));
+#else
+	m_VideoEncoder = std::unique_ptr<EncoderH264>(new EncoderH264(
+		api, adapter, !!obs_data_get_int(data, P_OPENCL_TRANSFER), !!obs_data_get_int(data, P_OPENCL_CONVERSION),
+		colorFormat, colorSpace, voi->range == VIDEO_RANGE_FULL, !!obs_data_get_int(data, P_MULTITHREADING),
+		(size_t)obs_data_get_int(data, P_QUEUESIZE)));
+
+	//enc = std::unique_ptr<AMD::EncoderH264>(new AMD::EncoderH264(api,adapter));
+#endif
 
 	/// Static Properties
 	m_VideoEncoder->SetUsage(Plugin::AMD::Usage::Transcoding);
