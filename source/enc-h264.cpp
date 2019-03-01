@@ -1468,17 +1468,17 @@ bool Plugin::Interface::H264Interface::update(obs_data_t* data)
 	/// I/P/Skip Frame Interval/Period
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_IFRAME) * framerate);
-		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_IFRAME)));
+		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_IFRAME)));
 		m_VideoEncoder->SetIFramePeriod(period);
 	}
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_PFRAME) * framerate);
-		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_PFRAME)));
+		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_PFRAME)));
 		m_VideoEncoder->SetPFramePeriod(period);
 	}
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_BFRAME) * framerate);
-		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_BFRAME)));
+		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_BFRAME)));
 		m_VideoEncoder->SetBFramePeriod(period);
 	}
 	{
