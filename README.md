@@ -8,7 +8,7 @@ This plugin is integrated in OBS Studio since Version 0.16.2. It replaced the ol
 |---------|----------|
 | [![Build Status](https://ci.xaymar.com/job/Xaymar/job/obs-amd-encoder/job/master/badge/icon)](https://ci.xaymar.com/job/Xaymar/job/obs-amd-encoder/job/master/) | [![AppVeyor Status](https://ci.appveyor.com/api/projects/status/github/Xaymar/obs-amd-encoder?branch=master&svg=true)](https://ci.appveyor.com/project/Xaymar/obs-amd-encoder) |
 
-## Installation
+## Installation for Windows
 The plugin ships with an Installer which will try to find the installation directory of OBS Studio and replaces the integrated version. You will also need the following:
 
 * Windows 7, Windows 8, Windows 10 or newer
@@ -16,6 +16,14 @@ The plugin ships with an Installer which will try to find the installation direc
 * [Microsoft Visual C++ 2017 Redistributables](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) (32-bit and 64-bit)
 * Latest [AMD Graphics Driver](https://support.amd.com/en-us/download)
 * Latest [Open Broadcaster Software Studio](https://obsproject.com/)
+
+## Installation for Linux
+You will also need the following:
+* Linux (WIP)
+* Latest [AMD Graphics Driver](https://support.amd.com/en-us/download)
+* Latest [Open Broadcaster Software Studio](https://obsproject.com/)
+* A [supported AMD GPU or APU](https://github.com/obsproject/obs-amd-encoder/wiki/Hardware-Support)
+* Linux seems to be Vulkan only support for AMF
 
 ## More Information and Troubleshooting
 Up to date information can always be found [on the Wiki](https://github.com/obsproject/obs-amd-encoder/wiki), including a [Troubleshooting Guide](https://github.com/obsproject/obs-amd-encoder/wiki/Guide%3A-Troubleshooting) that you should always follow if you have any issues!
