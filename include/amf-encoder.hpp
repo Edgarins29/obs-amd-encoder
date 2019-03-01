@@ -24,6 +24,7 @@
 #include <mutex>
 #include <queue>
 #include <thread>
+#include <cstring>
 #include <vector>
 #include "amf.hpp"
 #include "api-base.hpp"
