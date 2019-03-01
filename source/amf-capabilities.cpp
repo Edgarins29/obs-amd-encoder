@@ -19,10 +19,14 @@
 
 #include "amf-capabilities.hpp"
 #include "utility.hpp"
-#include <memory>
+#include <memory.h>
+
+
 
 using namespace Plugin;
 using namespace Plugin::AMD;
+
+
 
 #pragma region Singleton
 
@@ -69,9 +73,20 @@ Plugin::AMD::CapabilityManager::CapabilityManager()
 					std::unique_ptr<AMD::Encoder> enc;
 
 					if (codec.first == Codec::AVC || codec.first == Codec::SVC) {
+#if defined(WIN32) || defined(WIN64)
 						enc = std::make_unique<AMD::EncoderH264>(api, adapter);
+#else
+						// Current workaround for C++11, on GNU C++ compiler make_unique is C++14 feature.
+						enc = std::unique_ptr<AMD::EncoderH264>(new AMD::EncoderH264(api,adapter));
+#endif
+
 					} else if (codec.first == Codec::HEVC) {
+#if defined(WIN32) || defined(WIN64)
 						enc = std::make_unique<AMD::EncoderH265>(api, adapter);
+#else
+						// Current workaround for C++11, on GNU C++ compiler make_unique is C++14 feature.
+						enc = std::unique_ptr<AMD::EncoderH265>(new AMD::EncoderH265(api,adapter));
+#endif
 					}
 
 					if (enc != nullptr) {

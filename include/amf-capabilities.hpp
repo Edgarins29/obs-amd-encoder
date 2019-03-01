@@ -23,7 +23,7 @@
 #include <map>
 #include <tuple>
 #include <vector>
-#include <memory>
+#include <memory.h>
 #include "amf-encoder-h264.hpp"
 #include "amf-encoder-h265.hpp"
 #include "amf-encoder.hpp"
@@ -36,6 +36,12 @@
 #else
 #include <components/ComponentCaps.h>
 #endif
+
+template<typename T, typename... Args>
+std::unique_ptr<T> make_unique(Args&&... args) {
+    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
+
 namespace Plugin {
 	namespace AMD {
 		class CapabilityManager {
