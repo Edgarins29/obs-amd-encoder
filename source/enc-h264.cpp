@@ -1482,17 +1482,29 @@ bool Plugin::Interface::H264Interface::update(obs_data_t* data)
 	/// I/P/Skip Frame Interval/Period
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_IFRAME) * framerate);
+#if defined(WIN32) || defined(WIN64)
+		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_IFRAME)));
+#else
 		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_IFRAME)));
+#endif
 		m_VideoEncoder->SetIFramePeriod(period);
 	}
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_PFRAME) * framerate);
+#if defined(WIN32) || defined(WIN64)
+		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_PFRAME)));
+#else
 		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_PFRAME)));
+#endif
 		m_VideoEncoder->SetPFramePeriod(period);
 	}
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_BFRAME) * framerate);
+#if defined(WIN32) || defined(WIN64)
+		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_BFRAME)));
+#else
 		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_BFRAME)));
+#endif
 		m_VideoEncoder->SetBFramePeriod(period);
 	}
 	{

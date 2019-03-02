@@ -19,8 +19,12 @@
 
 #include "api-base.hpp"
 #include <cinttypes>
+#if defined(_WIN32) || defined(_WIN64)
 #include "api-d3d11.hpp"
 #include "api-d3d9.hpp"
+#else
+// #include "api-vulkan.hpp"
+#endif
 #include "api-host.hpp"
 #include "api-opengl.hpp"
 

@@ -551,8 +551,7 @@ uint64_t Plugin::AMD::EncoderH265::GetMaximumReferenceFrames()
 	AMF_RESULT res = m_AMFEncoder->GetProperty(AMF_VIDEO_ENCODER_HEVC_MAX_NUM_REFRAMES, &e);
 	if (res != AMF_OK) {
 		QUICK_FORMAT_MESSAGE(errMsg,
-							 __FUNCTION_NAME__ "<Id: %lld> < GetMaximumReferenceFrames()
-											   > Failed to retrieve value, error %ls (code %d)",
+							"<Id: %lld> < GetMaximumReferenceFrames() > Failed to retrieve value, error %ls (code %d)",
 							 m_UniqueId, m_AMF->GetTrace()->GetResultText(res), res);
 #if defined(WIN32) || defined(WIN64)
 		throw std::exception(errMsg.c_str());

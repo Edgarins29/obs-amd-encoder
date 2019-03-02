@@ -37,7 +37,11 @@ void Plugin::Interface::H265Interface::encoder_register()
 	}
 
 	// Create structure
+#if defined(WIN32) || defined(WIN64)
 	static std::unique_ptr<obs_encoder_info> encoder_info = std::make_unique<obs_encoder_info>();
+#else
+	static std::unique_ptr<obs_encoder_info> encoder_info = std::unique_ptr<obs_encoder_info>(new obs_encoder_info());
+#endif
 	std::memset(encoder_info.get(), 0, sizeof(obs_encoder_info));
 
 	// Initialize Structure
@@ -830,7 +834,7 @@ void* Plugin::Interface::H265Interface::create(obs_data_t* data, obs_encoder_t* 
 
 Plugin::Interface::H265Interface::H265Interface(obs_data_t* data, obs_encoder_t* encoder)
 {
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Initializing...");
+	PLOG_DEBUG("< H265Interface() > Initializing...");
 
 	m_Encoder = encoder;
 
@@ -886,10 +890,17 @@ Plugin::Interface::H265Interface::H265Interface(obs_data_t* data, obs_encoder_t*
 	} adapterid  = {obs_data_get_int(data, P_VIDEO_ADAPTER)};
 	auto adapter = api->GetAdapterById(adapterid.id[0], adapterid.id[1]);
 
+#if defined(WIN32) || defined(WIN64)
 	m_VideoEncoder = std::make_unique<EncoderH265>(
 		api, adapter, !!obs_data_get_int(data, P_OPENCL_TRANSFER), !!obs_data_get_int(data, P_OPENCL_CONVERSION),
 		colorFormat, colorSpace, voi->range == VIDEO_RANGE_FULL, !!obs_data_get_int(data, P_MULTITHREADING),
 		(size_t)obs_data_get_int(data, P_QUEUESIZE));
+#else
+	m_VideoEncoder = std::unique_ptr<EncoderH265>(new EncoderH265(
+		api, adapter, !!obs_data_get_int(data, P_OPENCL_TRANSFER), !!obs_data_get_int(data, P_OPENCL_CONVERSION),
+		colorFormat, colorSpace, voi->range == VIDEO_RANGE_FULL, !!obs_data_get_int(data, P_MULTITHREADING),
+		(size_t)obs_data_get_int(data, P_QUEUESIZE)));
+#endif
 
 	/// Static Properties
 	m_VideoEncoder->SetUsage(Plugin::AMD::Usage::Transcoding);
@@ -1023,7 +1034,7 @@ Plugin::Interface::H265Interface::H265Interface(obs_data_t* data, obs_encoder_t*
 	// Dynamic Properties (Can be changed during Encoding)
 	this->update(data);
 
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Complete.");
+	PLOG_DEBUG("< H265Interface() > Complete.");
 }
 
 void Plugin::Interface::H265Interface::destroy(void* ptr)
@@ -1034,12 +1045,12 @@ void Plugin::Interface::H265Interface::destroy(void* ptr)
 
 Plugin::Interface::H265Interface::~H265Interface()
 {
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Finalizing...");
+	PLOG_DEBUG("< ~H265Interface() > Finalizing...");
 	if (m_VideoEncoder) {
 		m_VideoEncoder->Stop();
 		m_VideoEncoder = nullptr;
 	}
-	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Complete.");
+	PLOG_DEBUG("< ~H265Interface() > Complete.");
 }
 
 bool Plugin::Interface::H265Interface::update(void* ptr, obs_data_t* settings)
@@ -1088,17 +1099,29 @@ bool Plugin::Interface::H265Interface::update(obs_data_t* data)
 	/// I/P/Skip Frame Interval/Period
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_IFRAME) * framerate);
+#if defined(WIN32) || defined(WIN64)
 		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_IFRAME)));
+#else
+		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_IFRAME)));
+#endif
 		m_VideoEncoder->SetIFramePeriod(period);
 	}
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_PFRAME) * framerate);
+#if defined(WIN32) || defined(WIN64)
 		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_PFRAME)));
+#else
+		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_PFRAME)));
+#endif
 		m_VideoEncoder->SetPFramePeriod(period);
 	}
 	{
 		uint32_t period = static_cast<uint32_t>(obs_data_get_double(data, P_INTERVAL_BFRAME) * framerate);
+#if defined(WIN32) || defined(WIN64)
 		period          = max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_BFRAME)));
+#else
+		period          = std::max(period, static_cast<uint32_t>(obs_data_get_int(data, P_PERIOD_BFRAME)));
+#endif
 		m_VideoEncoder->SetBFramePeriod(period);
 	}
 	{

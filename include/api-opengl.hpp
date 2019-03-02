@@ -24,7 +24,8 @@ extern "C" {
 #ifdef _WIN32
 #include <windows.h>
 #endif
-#include <gl/GL.h>
+//#include <gl/GL.h>
+#include <GL/gl.h>
 }
 
 namespace Plugin {
