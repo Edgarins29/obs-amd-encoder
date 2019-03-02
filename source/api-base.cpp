@@ -154,8 +154,11 @@ std::string Plugin::API::GetAPIName(size_t index)
 	indAPI + index; // Advanced by x elements.
 
 	if (indAPI == s_APIInstances.end())
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception("Invalid API Index");
-
+#else
+		throw std::runtime_error("Invalid API Index");
+#endif
 	return indAPI->get()->GetName();
 }
 
@@ -165,7 +168,11 @@ std::shared_ptr<IAPI> Plugin::API::GetAPI(size_t index)
 	indAPI + index; // Advanced by x elements.
 
 	if (indAPI == s_APIInstances.end())
+#if defined(WIN32) || defined(WIN64)
 		throw std::exception("Invalid API Index");
+#else
+		throw std::runtime_error("Invalid API Index");
+#endif
 
 	return *indAPI;
 }

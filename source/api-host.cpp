@@ -40,7 +40,11 @@ std::vector<Adapter> Plugin::API::Host::EnumerateAdapters()
 
 std::shared_ptr<Instance> Plugin::API::Host::CreateInstance(Adapter adapter)
 {
+#if defined(WIN32) || defined(WIN64)
 	return std::make_unique<HostInstance>();
+#else
+	return std::unique_ptr<HostInstance>(new HostInstance());
+#endif
 }
 
 Plugin::API::Adapter Plugin::API::HostInstance::GetAdapter()

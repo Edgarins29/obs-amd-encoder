@@ -51,7 +51,11 @@ std::vector<Adapter> Plugin::API::OpenGL::EnumerateAdapters()
 std::shared_ptr<Instance> Plugin::API::OpenGL::CreateInstance(Adapter adapter)
 {
 	// ToDo: Actually create a hidden window and OpenGL context. Not that it is going to be useful.
+#if defined(WIN32) || defined(WIN64)
 	return std::make_unique<OpenGLInstance>();
+#else
+	return std::unique_ptr<OpenGLInstance>(new OpenGLInstance());
+#endif
 }
 
 Plugin::API::OpenGLInstance::OpenGLInstance() {}
