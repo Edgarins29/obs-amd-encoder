@@ -187,7 +187,11 @@ static void printDebugInfo(amf::AMFComponentPtr m_AMFEncoder)
 
 MODULE_EXPORT bool obs_module_load(void)
 {
+#if defined(WIN32) || defined(WIN64)
 	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Loading...");
+#else
+	PLOG_DEBUG("< obs_module_load() > Loading...");
+#endif
 
 #ifdef _WIN32
 	// Out-of-process AMF Test
@@ -346,7 +350,11 @@ MODULE_EXPORT bool obs_module_load(void)
 	}
 #endif
 
+#if defined(WIN32) || defined(WIN64)
 	PLOG_DEBUG("<" __FUNCTION_NAME__ "> Loaded.");
+#else
+	PLOG_DEBUG("< obs_module_load() > Loaded.");
+#endif
 	return true;
 }
 

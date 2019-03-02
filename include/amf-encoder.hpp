@@ -25,6 +25,7 @@
 #include <queue>
 #include <thread>
 #include <cstring>
+#include <cmath>
 #include <vector>
 #include "amf.hpp"
 #include "api-base.hpp"

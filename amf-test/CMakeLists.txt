@@ -30,7 +30,7 @@ if(MSVC)
 	else()
 		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 	endif()
-	
+
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 elseif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
 	# Update if necessary
@@ -52,7 +52,7 @@ add_definitions(-DLITE_OBS)
 #   ${PropertyPrefix}OBS_PACKAGE
 #   AMF_SDK_DIR
 
-IF(WIN32)	
+IF(WIN32)
 	# windows.h
 	add_definitions(-DWIN32_LEAN_AND_MEAN)
 	add_definitions(-DNOGPICAPMASKS)
@@ -112,8 +112,8 @@ add_executable(enc-amf-test
 	"${enc-amf_SOURCE_DIR}/source/amf-encoder-h264.cpp"
 	"${enc-amf_SOURCE_DIR}/source/amf-encoder-h265.cpp"
 	"${enc-amf_SOURCE_DIR}/source/api-base.cpp"
-	"${enc-amf_SOURCE_DIR}/source/api-d3d9.cpp"
-	"${enc-amf_SOURCE_DIR}/source/api-d3d11.cpp"
+#	"${enc-amf_SOURCE_DIR}/source/api-d3d9.cpp"
+#	"${enc-amf_SOURCE_DIR}/source/api-d3d11.cpp"
 	"${enc-amf_SOURCE_DIR}/source/utility.cpp"
 	"${enc-amf_SOURCE_DIR}/include/amf.hpp"
 	"${enc-amf_SOURCE_DIR}/include/amf-capabilities.hpp"
@@ -121,12 +121,22 @@ add_executable(enc-amf-test
 	"${enc-amf_SOURCE_DIR}/include/amf-encoder-h264.hpp"
 	"${enc-amf_SOURCE_DIR}/include/amf-encoder-h265.hpp"
 	"${enc-amf_SOURCE_DIR}/include/api-base.hpp"
-	"${enc-amf_SOURCE_DIR}/include/api-d3d9.hpp"
-	"${enc-amf_SOURCE_DIR}/include/api-d3d11.hpp"
+#	"${enc-amf_SOURCE_DIR}/include/api-d3d9.hpp"
+#	"${enc-amf_SOURCE_DIR}/include/api-d3d11.hpp"
 	"${enc-amf_SOURCE_DIR}/include/utility.hpp"
 )
+
+IF(WIN32)
+add_executable(enc-amf-test
+	"${enc-amf_SOURCE_DIR}/source/api-d3d9.cpp"
+	"${enc-amf_SOURCE_DIR}/source/api-d3d11.cpp"
+	"${enc-amf_SOURCE_DIR}/include/api-d3d9.hpp"
+	"${enc-amf_SOURCE_DIR}/include/api-d3d11.hpp"
+	)
+ENDIF()
+
 target_include_directories(enc-amf-test
-	PUBLIC 
+	PUBLIC
 		"${PROJECT_SOURCE_DIR}"
 		"${enc-amf_SOURCE_DIR}/include"
 		"${enc-amf_BINARY_DIR}/include"
@@ -152,6 +162,11 @@ IF(WIN32)
 		version
 		winmm
 	)
+	ELSE()
+	target_link_libraries(enc-amf-test
+		dl
+		pthread
+	)
 ENDIF()
 
 set_target_properties(enc-amf-test
@@ -165,5 +180,5 @@ else()
 		RUNTIME DESTINATION "./data/obs-plugins/enc-amf/" COMPONENT Runtime
 		LIBRARY DESTINATION "./data/obs-plugins/enc-amf/" COMPONENT Runtime
 	)
-	INSTALL(FILES $<TARGET_PDB_FILE:enc-amf-test> DESTINATION "./data/obs-plugins/enc-amf/" OPTIONAL)	
+	INSTALL(FILES $<TARGET_PDB_FILE:enc-amf-test> DESTINATION "./data/obs-plugins/enc-amf/" OPTIONAL)
 endif()
