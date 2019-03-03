@@ -19,7 +19,7 @@
 
 #pragma once
 #include "api-base.hpp"
-#include <vulkan.hpp>
+#include <vulkan/vulkan.hpp>
 
 extern "C" {
 #ifdef _WIN32
