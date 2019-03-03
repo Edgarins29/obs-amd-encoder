@@ -226,6 +226,7 @@ Set(PROJECT_HEADERS
 	"${PROJECT_SOURCE_DIR}/include/api-base.hpp"
 	"${PROJECT_SOURCE_DIR}/include/api-host.hpp"
 	"${PROJECT_SOURCE_DIR}/include/api-opengl.hpp"
+	"${PROJECT_SOURCE_DIR}/include/api-vulkan.hpp"
 	"${PROJECT_SOURCE_DIR}/include/utility.hpp"
 	"${PROJECT_SOURCE_DIR}/include/plugin.hpp"
 	"${PROJECT_SOURCE_DIR}/include/strings.hpp"
@@ -242,6 +243,7 @@ Set(PROJECT_SOURCES
 	"${PROJECT_SOURCE_DIR}/source/api-base.cpp"
 	"${PROJECT_SOURCE_DIR}/source/api-host.cpp"
 	"${PROJECT_SOURCE_DIR}/source/api-opengl.cpp"
+	"${PROJECT_SOURCE_DIR}/source/api-vulkan.cpp"
 	"${PROJECT_SOURCE_DIR}/source/utility.cpp"
 	"${PROJECT_SOURCE_DIR}/source/plugin.cpp"
 )
