@@ -31,6 +31,7 @@ namespace Plugin {
 			Direct3D9,
 			Direct3D11,
 			OpenGL,
+			Vulkan,
 		};
 
 		// An Adapter on an API
