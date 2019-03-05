@@ -17,13 +17,14 @@ The plugin ships with an Installer which will try to find the installation direc
 * Latest [AMD Graphics Driver](https://support.amd.com/en-us/download)
 * Latest [Open Broadcaster Software Studio](https://obsproject.com/)
 
-## Installation for Linux
+## Installation for Linux, TODOS, Current Status
 You will also need the following:
-* Linux (WIP)
-* Latest [AMD Graphics Driver](https://support.amd.com/en-us/download)
-* Latest [Open Broadcaster Software Studio](https://obsproject.com/)
-* A [supported AMD GPU or APU](https://github.com/obsproject/obs-amd-encoder/wiki/Hardware-Support)
+* Linux (WIP) (Currently builds) (https://github.com/GPUOpen-LibrariesAndSDKs/AMF/issues/4)
+* Latest [AMD Graphics Driver](https://support.amd.com/en-us/download) (Currently no RADV support) https://github.com/GPUOpen-LibrariesAndSDKs/AMF/issues/130
+* Latest [Open Broadcaster Software Studio](https://obsproject.com/) (Supports VAAPI) (Maybe VAAPI will support AMF in future?) (Maybe through FFmpeg?) https://github.com/GPUOpen-LibrariesAndSDKs/AMF/issues/4
+* A [supported AMD GPU or APU](https://github.com/obsproject/obs-amd-encoder/wiki/Hardware-Support) (I need a new videocard)
 * Linux seems to be Vulkan only support for AMF
+* Also need to wait on Khronos. (https://github.com/GPUOpen-LibrariesAndSDKs/AMF/issues/4)
 
 ## More Information and Troubleshooting
 Up to date information can always be found [on the Wiki](https://github.com/obsproject/obs-amd-encoder/wiki), including a [Troubleshooting Guide](https://github.com/obsproject/obs-amd-encoder/wiki/Guide%3A-Troubleshooting) that you should always follow if you have any issues!
