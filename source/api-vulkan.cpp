@@ -54,6 +54,18 @@ std::shared_ptr<Instance> Plugin::API::Vulkan::CreateInstance(Adapter adapter)
 #if defined(WIN32) || defined(WIN64)
 	return std::make_unique<VulkanInstance>();
 #else
+	VkResult vkres = VK_SUCCESS;
+	VkInstanceCreateInfo instanceCreateInfo = {};
+	instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+
+	VkApplicationInfo applicationInfo = {};
+	applicationInfo.sType               = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+	applicationInfo.apiVersion          = VK_API_VERSION_1_0;
+	applicationInfo.applicationVersion  = VK_MAKE_VERSION(1, 0, 0);
+	applicationInfo.engineVersion       = VK_MAKE_VERSION(1, 0, 0);
+	applicationInfo.pApplicationName    = "AMF Vulkan application";
+	applicationInfo.pEngineName         = "AMD Vulkan Sample Engine";
+
 	return std::unique_ptr<VulkanInstance>(new VulkanInstance());
 #endif
 }

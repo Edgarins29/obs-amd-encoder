@@ -256,6 +256,10 @@ Set(PROJECT_LIBRARIES
 	version
 	winmm
 )
+else()
+Set(PROJECT_LIBRARIES
+	vulkan
+	)
 Endif()
 
 If(WIN32) # Windows Only
